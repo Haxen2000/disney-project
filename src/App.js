@@ -1,7 +1,17 @@
+import React, { useEffect, useState } from 'react';
+import { getDisneyData } from './actions';
 import logo from './logo.svg';
 import './App.css';
 
 function App() {
+  const [state, setState] = useState({});
+  useEffect(() => {
+    getDisneyData()
+      .then(res => {
+        setState(res);
+      });
+  }, []);
+
   return (
     <div className="App">
       <header className="App-header">
@@ -18,6 +28,11 @@ function App() {
           Learn React
         </a>
       </header>
+      <div>
+        {state?.StandardCollection?.containers.map(cont => (
+          <div>{cont.type} | {cont.style}</div>
+        ))}
+      </div>
     </div>
   );
 }
