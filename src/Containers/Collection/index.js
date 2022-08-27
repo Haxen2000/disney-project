@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import ShowCard from '../ShowCard';
+import { CollectionContainer, ShowContainer } from './styled';
 
 const Collection = props => {
   const data = props.data.set;
@@ -37,14 +38,14 @@ const Collection = props => {
   });
 
   return (
-    <div>
+    <CollectionContainer>
       <h4>{data.text?.title.full.set.default.content}</h4>
-      <div class='show-container'>
+      <ShowContainer>
         {cardArr.map((show, i) => {
           return <ShowCard title={show.title} img={show.img} />
         })}
-      </div>
-    </div>
+      </ShowContainer>
+    </CollectionContainer>
   );
 }
 
