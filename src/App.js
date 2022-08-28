@@ -54,7 +54,7 @@ function App() {
   useEffect(() => {
     if (!devUseEffect) {
       devUseEffect = true;
-      // changeSelected([0,0,0]);
+      changeSelected([0,0,0]);
       getDisneyData()
         .then(res => {
           setState(res);
