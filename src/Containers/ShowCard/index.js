@@ -3,7 +3,7 @@ import { CardContainer } from './styled';
 
 const ShowCard = props => {
   return (
-    <CardContainer>
+    <CardContainer className={props.showIndex === props.selected[0] && props.collIndex === props.selected[1] ? 'selected' : ''}>
       {props.img ? 
         <img
           src={props.img.url}
@@ -17,8 +17,11 @@ const ShowCard = props => {
 };
 
 ShowCard.propTypes = {
+  collIndex: PropTypes.number,
   img: PropTypes.object,
   title: PropTypes.string,
+  selected: PropTypes.array,
+  showIndex: PropTypes.number,
 };
 
 export default ShowCard;

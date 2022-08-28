@@ -42,7 +42,7 @@ const Collection = props => {
       <h4>{data.text?.title.full.set.default.content}</h4>
       <ShowContainer>
         {cardArr.map((show, i) => {
-          return <ShowCard title={show.title} img={show.img} />
+          return <ShowCard title={show.title} img={show.img} collIndex={props.collIndex} showIndex={i} selected={props.selected} />
         })}
       </ShowContainer>
     </CollectionContainer>
@@ -51,6 +51,8 @@ const Collection = props => {
 
 Collection.propTypes = {
   data: PropTypes.object,
+  collIndex: PropTypes.number,
+  selected: PropTypes.array,
 };
 
 export default Collection;
