@@ -8,35 +8,39 @@ import Collection from './Containers/Collection';
 // https://beta.reactjs.org/learn/synchronizing-with-effects#how-to-handle-the-effect-firing-twice-in-development
 let devUseEffect = false;
 let maxRows = 0;
+let maxShows = 0;
 
 function App() {
   const [state, setState] = useState({});
   const [selected, changeSelected] = useState([]);
+  const [currRow, changeRow] = useState(0);
 
   function keyDownHandler(e) {
     switch (e.code) {
       case 'ArrowDown':
       case 'KeyS':
-        if (selected[1] < maxRows) {
-          changeSelected([selected[0], ++selected[1]]);
+        if (currRow < maxRows) {
+          changeRow(currRow + 1);
         }
         break;
       case 'ArrowUp':
       case 'KeyW':
-        if (selected[1]) {
-          changeSelected([selected[0], --selected[1]]);
+        if (currRow) {
+          changeRow(currRow - 1);
         };
         break;
         case 'ArrowRight':
         case 'KeyD':
-          if (selected[0] < maxRows) {
-            changeSelected([++selected[0], selected[1]]);
+          if (selected[currRow] < maxShows - 1) {
+            selected[currRow]++;
+            changeSelected([...selected]);
           }
           break;
       case 'ArrowLeft':
       case 'KeyA':
-        if (selected[0]) {
-          changeSelected([--selected[0], selected[1]]);
+        if (selected[currRow]) {
+          selected[currRow]--;
+          changeSelected([...selected]);
         };
         break;
       case 'Enter':
@@ -50,11 +54,12 @@ function App() {
   useEffect(() => {
     if (!devUseEffect) {
       devUseEffect = true;
-      changeSelected([0,0]); //x,y coors
+      // changeSelected([0,0,0]);
       getDisneyData()
         .then(res => {
           setState(res);
           maxRows = res.StandardCollection.containers.length;
+          maxShows = res.StandardCollection.containers[0].set.items.length;
         });
     }
   }, []);
@@ -63,7 +68,7 @@ function App() {
     <div className="App" onKeyDown={keyDownHandler} tabIndex='0'>
       <div>
         {state?.StandardCollection?.containers.map((coll, i) => (
-          <Collection data={coll} collIndex={i} selected={selected} />
+          <Collection data={coll} collIndex={i} selected={selected} currRow={currRow} />
         ))}
       </div>
     </div>

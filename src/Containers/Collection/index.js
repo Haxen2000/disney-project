@@ -4,8 +4,9 @@ import { CollectionContainer, ShowContainer } from './styled';
 
 const Collection = props => {
   const data = props.data.set;
-  console.log('Collection :', data);
+  // console.log('Collection :', props.currRow, props.collIndex);
   let cardArr = [];
+  const selected = props.selected;
 
   data?.items?.forEach((show) => {
     const titleObj = show.text.title.full;
@@ -40,9 +41,9 @@ const Collection = props => {
   return (
     <CollectionContainer>
       <h4>{data.text?.title.full.set.default.content}</h4>
-      <ShowContainer>
+      <ShowContainer style={{left: (selected[props.collIndex] > 3) ? (selected[props.collIndex] - 3) * -300 : 0}}>
         {cardArr.map((show, i) => {
-          return <ShowCard title={show.title} img={show.img} collIndex={props.collIndex} showIndex={i} selected={props.selected} />
+          return <ShowCard title={show.title} img={show.img} collIndex={props.collIndex} showIndex={i} selected={selected} currRow={props.currRow} />
         })}
       </ShowContainer>
     </CollectionContainer>

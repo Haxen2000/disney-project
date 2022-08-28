@@ -3,7 +3,7 @@ import { CardContainer } from './styled';
 
 const ShowCard = props => {
   return (
-    <CardContainer className={props.showIndex === props.selected[0] && props.collIndex === props.selected[1] ? 'selected' : ''}>
+    <CardContainer className={props.showIndex === props.selected[props.collIndex] && props.collIndex === props.currRow ? 'selected' : ''}>
       {props.img ? 
         <img
           src={props.img.url}
