@@ -9,6 +9,7 @@ import Collection from './Containers/Collection';
 let devUseEffect = false;
 let maxRows = 0;
 let maxShows = 0;
+let visualL2R = 0;
 
 function App() {
   const [state, setState] = useState({});
@@ -20,19 +21,32 @@ function App() {
       case 'ArrowDown':
       case 'KeyS':
         if (currRow < maxRows) {
-          changeRow(currRow + 1);
+          const newRow = currRow + 1;
+          changeRow(newRow);
+          if (selected[newRow] < 3) {
+            selected[newRow] = visualL2R;
+          }
+          changeSelected([...selected]);
         }
         break;
       case 'ArrowUp':
       case 'KeyW':
         if (currRow) {
-          changeRow(currRow - 1);
+          const newRow = currRow - 1;
+          changeRow(newRow);
+          if (selected[newRow] < 3) {
+            selected[newRow] = visualL2R;
+          }
+          changeSelected([...selected]);
         };
         break;
         case 'ArrowRight':
         case 'KeyD':
           if (selected[currRow] < maxShows - 1) {
             selected[currRow]++;
+            if (visualL2R < 3) {
+              visualL2R++;
+            }
             changeSelected([...selected]);
           }
           break;
@@ -40,6 +54,9 @@ function App() {
       case 'KeyA':
         if (selected[currRow]) {
           selected[currRow]--;
+          if (visualL2R && selected[currRow] < 3) {
+            visualL2R--;
+          }
           changeSelected([...selected]);
         };
         break;

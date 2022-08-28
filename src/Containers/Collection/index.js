@@ -14,8 +14,8 @@ const Collection = props => {
     const type = show.type;
     let title = '', img = {};
 
-    console.log('Show titleObj', titleObj);
-    console.log('type ' + type);
+    // console.log('Show titleObj', titleObj);
+    // console.log('type ' + type);
 
     switch (type) {
       case 'DmcSeries':
