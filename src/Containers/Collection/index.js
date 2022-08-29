@@ -6,7 +6,6 @@ const Collection = props => {
   const data = props.data.set;
   // console.log('Collection :', props.currRow, props.collIndex);
   let cardArr = [];
-  const selected = props.selected;
 
   data?.items?.forEach((show) => {
     const titleObj = show.text.title.full;
@@ -37,13 +36,24 @@ const Collection = props => {
     }
     cardArr.push({title, img});
   });
+  
+  //calculation new left position
+  let left = props.thisShifted * -300;
 
   return (
     <CollectionContainer>
       <h4>{data.text?.title.full.set.default.content}</h4>
-      <ShowContainer style={{left: (selected[props.collIndex] > 3) ? (selected[props.collIndex] - 3) * -300 : 0}}>
+      <ShowContainer style={{left: left}}>
         {cardArr.map((show, i) => {
-          return <ShowCard title={show.title} img={show.img} collIndex={props.collIndex} showIndex={i} selected={selected} currRow={props.currRow} />
+          return <ShowCard
+            title={show.title}
+            img={show.img}
+            collIndex={props.collIndex}
+            showIndex={i}
+            currRow={props.currRow}
+            thisShifted={props.thisShifted}
+            visualL2R={props.visualL2R}
+          />
         })}
       </ShowContainer>
     </CollectionContainer>
@@ -51,9 +61,10 @@ const Collection = props => {
 }
 
 Collection.propTypes = {
-  data: PropTypes.object,
   collIndex: PropTypes.number,
-  selected: PropTypes.array,
+  data: PropTypes.object,
+  thisShifted: PropTypes.number,
+  visualL2R: PropTypes.number,
 };
 
 export default Collection;

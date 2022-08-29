@@ -9,69 +9,62 @@ import Collection from './Containers/Collection';
 let devUseEffect = false;
 let maxRows = 0;
 let maxShows = 0;
-let visualL2R = 0;
 
 function App() {
-  const [state, setState] = useState({});
-  const [selected, changeSelected] = useState([]);
-  const [currRow, changeRow] = useState(0);
+  const [state, setState] = useState({}); // data from API
+  const [shifted, changeRowShift] = useState([]); //array holding how much a row has shifted
+  const [currRow, changeRow] = useState(0); //number representing our current row
+  const [visualL2R, updateSelected] = useState(0); // 0-3; where we are on the screen, left to right
 
   function keyDownHandler(e) {
     switch (e.code) {
       case 'ArrowDown':
       case 'KeyS':
         if (currRow < maxRows) {
-          const newRow = currRow + 1;
-          changeRow(newRow);
-          if (selected[newRow] < 3) {
-            selected[newRow] = visualL2R;
-          }
-          changeSelected([...selected]);
+          changeRow(currRow + 1);
         }
         break;
       case 'ArrowUp':
       case 'KeyW':
         if (currRow) {
-          const newRow = currRow - 1;
-          changeRow(newRow);
-          if (selected[newRow] < 3) {
-            selected[newRow] = visualL2R;
-          }
-          changeSelected([...selected]);
+          changeRow(currRow - 1);
         };
         break;
-        case 'ArrowRight':
-        case 'KeyD':
-          if (selected[currRow] < maxShows - 1) {
-            selected[currRow]++;
-            if (visualL2R < 3) {
-              visualL2R++;
-            }
-            changeSelected([...selected]);
+      case 'ArrowRight':
+      case 'KeyD':
+        if (shifted[currRow] + 4 < maxShows) {
+          if (visualL2R === 3) {
+            shifted[currRow]++;
           }
-          break;
+          if (visualL2R < 3) {
+            updateSelected(visualL2R + 1);
+          }
+          changeRowShift([...shifted]);
+        }
+        break;
       case 'ArrowLeft':
       case 'KeyA':
-        if (selected[currRow]) {
-          selected[currRow]--;
-          if (visualL2R && selected[currRow] < 3) {
-            visualL2R--;
-          }
-          changeSelected([...selected]);
-        };
+        if (!visualL2R && shifted[currRow]) {
+          --shifted[currRow];
+          changeRowShift([...shifted]);
+        }
+        else if (visualL2R) {
+          updateSelected(visualL2R - 1);
+        }
         break;
       case 'Enter':
         console.log('enter');
         break;
       default:
         console.log('keyDownHandler', e.code);
+        break;
     }
   };
 
   useEffect(() => {
     if (!devUseEffect) {
       devUseEffect = true;
-      changeSelected([0,0,0]);
+      changeRowShift([0,0,0]);
       getDisneyData()
         .then(res => {
           setState(res);
@@ -85,7 +78,13 @@ function App() {
     <div className="App" onKeyDown={keyDownHandler} tabIndex='0'>
       <div>
         {state?.StandardCollection?.containers.map((coll, i) => (
-          <Collection data={coll} collIndex={i} selected={selected} currRow={currRow} />
+          <Collection 
+            data={coll}
+            collIndex={i}
+            currRow={currRow}
+            visualL2R={visualL2R}
+            thisShifted={shifted[i]}
+          />
         ))}
       </div>
     </div>
