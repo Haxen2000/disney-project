@@ -1,0 +1,19 @@
+div.collectionContainer {
+  height: 256px;
+  padding: 0 20px;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+div.collectionContainer::-webkit-scrollbar {
+  display: none;
+}
+
+div.collectionContainer h4 {
+  color: #fff;
+}
+
+div.showContainer {
+  position: relative;
+  transition: left .5s;
+}

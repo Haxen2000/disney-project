@@ -1,0 +1,26 @@
+div.cardContainer {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+div.cardContainer.selected {
+  border: 1px solid #fff;
+}
+
+div.cardContainer.selected img {
+  width: 330px;
+}
+
+div.cardContainer:not(:first-child) {
+  margin-left: 10px;
+}
+
+div.cardContainer img{
+  display: block;
+  transition: width .5s;
+  width: 300px;
+}
+
+div.cardContainer img.fallback {
+  padding: 25px 0;
+}
