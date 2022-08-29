@@ -10,7 +10,6 @@ let shifted = []; //array holding how much a row has shifted
 let currRow = 0; //number representing our current row
 let visualL2R = 0; // 0-3; where we are on the screen, left to right
 
-
 function render() {
   const app = document.getElementsByClassName('App')[0];
 
@@ -74,7 +73,13 @@ function keyDownHandler(e) {
       console.log('keyDownHandler', e.code);
       break;
   }
-  render();
+  const cards = [].slice.call(document.getElementsByClassName('cardContainer'));
+  cards.forEach(e => {
+    e.className = 'cardContainer';
+  });
+  const selectedCollection = document.getElementsByClassName('collectionContainer')[currRow];
+  const selectedCard = selectedCollection.getElementsByClassName('cardContainer')[visualL2R + shifted[currRow]];
+  selectedCard.className += ' selected';
 };
 
 function App() {
