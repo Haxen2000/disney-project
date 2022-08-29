@@ -64,12 +64,12 @@ function App() {
   useEffect(() => {
     if (!devUseEffect) {
       devUseEffect = true;
-      changeRowShift([0,0,0]);
       getDisneyData()
         .then(res => {
           setState(res);
           maxRows = res.StandardCollection.containers.length;
           maxShows = res.StandardCollection.containers[0].set.items.length;
+          changeRowShift(Array.from({length: maxRows}, (_, i) => 0)); //creates an array of 0s
         });
     }
   }, []);
@@ -78,7 +78,8 @@ function App() {
     <div className="App" onKeyDown={keyDownHandler} tabIndex='0'>
       <div>
         {state?.StandardCollection?.containers.map((coll, i) => (
-          <Collection 
+          <Collection
+            key={i}
             data={coll}
             collIndex={i}
             currRow={currRow}

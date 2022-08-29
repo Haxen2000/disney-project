@@ -46,6 +46,7 @@ const Collection = props => {
       <ShowContainer style={{left: left}}>
         {cardArr.map((show, i) => {
           return <ShowCard
+            key={i}
             title={show.title}
             img={show.img}
             collIndex={props.collIndex}
