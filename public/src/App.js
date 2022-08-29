@@ -59,8 +59,7 @@ function keyDownHandler(e) {
     case 'ArrowLeft':
     case 'KeyA':
       if (!visualL2R && shifted[currRow]) {
-        --shifted[currRow];
-        // changeRowShift([...shifted]);
+        shifted[currRow]--;
       }
       else if (visualL2R) {
         visualL2R = (visualL2R - 1);
@@ -73,11 +72,12 @@ function keyDownHandler(e) {
       console.log('keyDownHandler', e.code);
       break;
   }
+  const selectedCollection = document.getElementsByClassName('showContainer')[currRow];
+  selectedCollection.style.left = shifted[currRow] * -300 + 'px';
   const cards = [].slice.call(document.getElementsByClassName('cardContainer'));
   cards.forEach(e => {
     e.className = 'cardContainer';
   });
-  const selectedCollection = document.getElementsByClassName('collectionContainer')[currRow];
   const selectedCard = selectedCollection.getElementsByClassName('cardContainer')[visualL2R + shifted[currRow]];
   selectedCard.className += ' selected';
 };

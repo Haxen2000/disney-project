@@ -36,7 +36,6 @@ const Collection = props => {
   });
   
   //calculation new left position
-  let left = props.thisShifted * -300;
   const CollectionContainer = document.createElement('div');
   CollectionContainer.className='collectionContainer';
 
@@ -45,7 +44,7 @@ const Collection = props => {
   CollectionContainer.appendChild(collectionTitle);
 
   const ShowContainer = document.createElement('div');
-  ShowContainer.style.left = left;
+  ShowContainer.className = 'showContainer';
   CollectionContainer.appendChild(ShowContainer);
 
   const shows = cardArr.map((show, i) => {
