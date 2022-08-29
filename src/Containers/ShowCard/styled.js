@@ -20,5 +20,9 @@ export const CardContainer = styled.div`
     display: block;
     transition: width .5s;
     width: 300px;
+
+    &.fallback {
+      padding: 25px 0;
+    }
   }
 `;
