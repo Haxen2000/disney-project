@@ -1,8 +1,25 @@
 // import axios from 'axios';
 
-// import { DISNEY_API } from "./constants";
+import { DISNEY_API } from "./constants.js";
+
+//from jQuery
+function loadJSON(url, callback) {   
+  var xobj = new XMLHttpRequest();
+  xobj.overrideMimeType("application/json");
+  xobj.open('GET', url, true);
+  xobj.onreadystatechange = function () {
+    if (xobj.readyState === 4 && xobj.status === 200) {
+      // Required use of an anonymous callback as .open will NOT return a value but simply returns undefined in asynchronous mode
+      callback(xobj.responseText);
+    }
+  };
+  xobj.send(null);  
+}
 
 export async function getDisneyData() {
+  loadJSON(DISNEY_API, function(res) {
+    return res.data;
+  });
   /*return await axios.get(DISNEY_API)
     .then(res => {
       console.log('getDisneyData', res.data.data);
