@@ -1,16 +1,15 @@
-// import axios from 'axios';
-
 import { DISNEY_API } from "./constants.js";
 
-export async function getDisneyData() {
-  return await fetch(DISNEY_API)
+export async function getHomeData() {
+  /*return await fetch(DISNEY_API + 'home.json')
   .then((res) => {
     return res.json();
   })
   .then((data) => {
     return data.data;
   });
-    /*
+  */
+    /**/
     return {
       "StandardCollection": {
       "callToAction": null,
@@ -15588,5 +15587,15 @@ export async function getDisneyData() {
       "videoArt": []
       }
       };
-    */
+    /**/
+};
+
+export async function getCollectionData(id) {
+  return await fetch(DISNEY_API + 'sets/' + id + '.json')
+  .then((res) => {
+    return res.json();
+  })
+  .then((data) => {
+    return data.data;
+  });
 };

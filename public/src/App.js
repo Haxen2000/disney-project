@@ -1,4 +1,4 @@
-import { getDisneyData } from './actions.js';
+import { getHomeData, getCollectionData } from './actions.js';
 
 import Collection from './Containers/Collection/index.js';
 
@@ -10,6 +10,8 @@ let shifted = []; //array holding how much a row has shifted
 let currRow = 0; //number representing our current row
 let visualL2R = 0; // 0-3; where we are on the screen, left to right
 
+let totalCollectionsLoaded = 0;
+
 function render() {
   const app = document.getElementsByClassName('App')[0];
 
@@ -18,29 +20,53 @@ function render() {
   app.append(div);
 
   var collections = state?.StandardCollection?.containers.map((coll, i) => {
+    if (coll.set.items) {
+      totalCollectionsLoaded++;
+    }
     return Collection({
-      data: coll,
-      collIndex: i,
-      currRow,
-      visualL2R,
-      thisShifted: shifted[i]
+      data: coll
     });
   });
   div.append(...collections);
+  collections[0].childNodes[1].childNodes[0].className += ' selected';
 };
 
 function keyDownHandler(e) {
+  e.preventDefault();
   switch (e.code) {
     case 'ArrowDown':
     case 'KeyS':
-      if (currRow < maxRows) {
+      if (currRow < maxRows - 1) {
         currRow = (currRow + 1);
+        if (currRow > 1 && currRow < maxRows - 2) {
+          const loadRowNum = currRow + 2;
+          const updateContainer = document.getElementsByClassName('collectionContainer')[loadRowNum];
+          const id = updateContainer.getAttribute('data-ref-id');
+          if (loadRowNum + 1 > totalCollectionsLoaded) {
+            getCollectionData(id)
+              .then(data => {
+                const updatedContent = Collection({
+                  data: data,
+                  refType: updateContainer.getAttribute('data-ref-type'),
+                  showCardsOnly: true,
+                });
+                updateContainer.append(updatedContent);
+              });
+            totalCollectionsLoaded++;
+          }
+        }
+        if (currRow > 1 && currRow < maxRows - 1) {
+          document.getElementsByClassName('App')[0].style.top = (currRow - 1) * -256 + 'px';
+        }
       }
       break;
     case 'ArrowUp':
     case 'KeyW':
       if (currRow) {
         currRow = (currRow - 1);
+        if (currRow) {
+          document.getElementsByClassName('App')[0].style.top = (currRow - 1) * -256 + 'px';
+        }
       };
       break;
     case 'ArrowRight':
@@ -52,8 +78,6 @@ function keyDownHandler(e) {
         if (visualL2R < 3) {
           visualL2R = (visualL2R + 1);
         }
-        // changeRowShift([...shifted]);
-        console.log('right', 'shifted', shifted, 'visualL2R', visualL2R);
       }
       break;
     case 'ArrowLeft':
@@ -86,7 +110,7 @@ function App() {
   const root = document.getElementById('root');
 
   function init() {
-    getDisneyData()
+    getHomeData()
       .then(res => {
         state = (res);
         maxRows = res.StandardCollection.containers.length;
