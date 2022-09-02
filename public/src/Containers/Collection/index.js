@@ -1,8 +1,11 @@
 import ShowCard from '../ShowCard/index.js';
 
 const Collection = props => {
-  const data = props.data.set;
-  // console.log('Collection :', props.currRow, props.collIndex);
+  let idType = props.refType;
+  if (idType === 'BecauseYouSet') {
+    idType = 'CuratedSet';
+  }
+  const data = props.data.set ? props.data.set : props.data[idType];
   let cardArr = [];
 
   data?.items?.forEach((show) => {
@@ -10,9 +13,6 @@ const Collection = props => {
     const imgObj = show.image.tile['1.78'];
     const type = show.type;
     let title = '', img = {};
-
-    // console.log('Show titleObj', titleObj);
-    // console.log('type ' + type);
 
     switch (type) {
       case 'DmcSeries':
@@ -34,33 +34,39 @@ const Collection = props => {
     }
     cardArr.push({title, img});
   });
-  
-  //calculation new left position
-  const CollectionContainer = document.createElement('div');
-  CollectionContainer.className='collectionContainer';
-
-  const collectionTitle = document.createElement('h4');
-  collectionTitle.innerHTML = data.text?.title.full.set.default.content;
-  CollectionContainer.appendChild(collectionTitle);
 
   const ShowContainer = document.createElement('div');
   ShowContainer.className = 'showContainer';
-  CollectionContainer.appendChild(ShowContainer);
 
-  const shows = cardArr.map((show, i) => {
+  const shows = cardArr.map((show) => {
     return ShowCard({
       title: show.title,
       img: show.img,
-      collIndex: props.collIndex,
-      showIndex: i,
-      currRow: props.currRow,
-      thisShifted: props.thisShifted,
-      visualL2R: props.visualL2R,
     });
   });
   ShowContainer.append(...shows);
   
-  return CollectionContainer;
+  if (!props.showCardsOnly) {
+    //calculation new left position
+    const CollectionContainer = document.createElement('div');
+    CollectionContainer.className='collectionContainer';
+    if (data.refId) {
+      CollectionContainer.dataset.refId = data.refId;
+      CollectionContainer.dataset.refType = data.refType;
+    }
+
+    const collectionTitle = document.createElement('h4');
+    collectionTitle.innerHTML = data.text?.title.full.set.default.content;
+    CollectionContainer.appendChild(collectionTitle);
+
+    if (shows.length) {
+      CollectionContainer.appendChild(ShowContainer);
+    }
+    return CollectionContainer;
+  }
+  else {
+    return ShowContainer;
+  }
 }
 
 export default Collection;

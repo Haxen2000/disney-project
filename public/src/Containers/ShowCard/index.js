@@ -8,7 +8,7 @@ function imgError(e) {
 
 const ShowCard = props => {
   const CardContainer = document.createElement('div');
-  CardContainer.className = 'cardContainer' + (props.showIndex === props.visualL2R + props.thisShifted && props.collIndex === props.currRow ? ' selected' : '');
+  CardContainer.className = 'cardContainer';
   
   if (props.img) {
     const img = document.createElement('img');

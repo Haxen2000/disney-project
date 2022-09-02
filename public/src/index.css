@@ -15,4 +15,17 @@ code {
 .App {
   text-align: center;
   background: grey;
+  position: relative;
+  transition: top .5s;
+  top: 0;
+  padding-bottom: 30px;
+}
+
+/*body {
+  overflow-x: auto;
+  white-space: nowrap;
+}*/
+
+body::-webkit-scrollbar {
+  display: none;
 }
