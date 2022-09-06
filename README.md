@@ -1,6 +1,6 @@
 # Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project was originally bootstrapped with [Create React App](https://github.com/facebook/create-react-app). The src folder was emptied (minus index.js) after re-reading the requirements, so that I could continue to use *npm start* to run locally while working in the public folder with vanilla JS.
 
 ## Available Scripts
 
@@ -25,3 +25,7 @@ I do not have any tests set up, and building will overwrite the public folder.
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
 To learn React, check out the [React documentation](https://reactjs.org/).
+
+## How to use
+
+WASD or Up/Down/Left/Right arrows to navigate
