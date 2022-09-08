@@ -12,20 +12,26 @@ code {
     monospace;
 }
 
-.App {
-  text-align: center;
-  background: grey;
-  position: relative;
-  transition: top .5s;
-  top: 0;
+.app {
   padding-bottom: 30px;
 }
 
-/*body {
-  overflow-x: auto;
-  white-space: nowrap;
-}*/
+.home-container {
+  position: relative;
+  top: 0;
+  transition: top .5s;
+  text-align: center;
+  background: grey;
+}
 
 body::-webkit-scrollbar {
+  display: none;
+}
+
+.app.show-page {
+  padding: 0;
+}
+
+.app.show-page .home-container {
   display: none;
 }
