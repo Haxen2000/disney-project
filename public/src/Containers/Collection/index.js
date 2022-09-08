@@ -1,11 +1,7 @@
 import ShowCard from '../ShowCard/index.js';
 
 const Collection = props => {
-  let idType = props.refType;
-  if (idType === 'BecauseYouSet') {
-    idType = 'CuratedSet';
-  }
-  const data = props.data.set ? props.data.set : props.data[idType];
+  const data = props.data.set ? props.data.set : props.data[props.refType];
   let cardArr = [];
 
   data?.items?.forEach((show) => {
