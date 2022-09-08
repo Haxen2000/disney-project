@@ -1,0 +1,39 @@
+.show-page-holder {
+  background-size: cover;
+}
+
+.show-page-holder span {
+  color: #fff;
+  background-color: rgba(80, 80, 80, .5);
+  padding: 3px 7px;
+  margin-right: 5px;
+}
+
+.show-page-holder .selected {
+  color: darkslategrey;
+  background-color: #fff;
+}
+
+.show-page-holder img {
+  width: 340px;
+}
+
+.show-page-holder .back-btn {
+  position: relative;
+  top: 10px;
+  left: 15px;
+}
+
+.show-page-holder .play-btn {
+  padding: 15px 35px;
+  position: relative;
+  top: 40px;
+}
+
+.show-descrip {
+  padding: 150px 0 400px 50px;
+}
+
+.metadata-holder {
+  margin-top: 5px;
+}
