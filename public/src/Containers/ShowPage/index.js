@@ -1,4 +1,4 @@
-import { imgBuilder } from "../../constants.js";
+import { imgBuilder } from "../../tools/ImageBuilder.js";
 
 const ShowPage = props => {
   const ShowPage = document.createElement('div');
