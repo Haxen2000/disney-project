@@ -35,6 +35,8 @@ Backspace (or use keys to get to back button) to navigate back to home screen
 ## Notes
 Assuming home page does not need to reload when navigating back.
 No resize handlers, as that is not expected on a connected device.
+API returns images as JPEGs at 500px wide. Rather than maniuplating the URLs, I would discuss with backend team changing some of them to be wider and PNGs.
 
 ## TO-DO:
 Implement a loading modal
+Minimize code for production; need for a single file for connected devices?
