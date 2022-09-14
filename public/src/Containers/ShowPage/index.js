@@ -1,4 +1,4 @@
-import { imgBuilder } from "../../tools/ImageBuilder.js";
+import { imgBuilder } from '../../tools/ImageBuilder.js';
 
 const ShowPage = props => {
   const ShowPage = document.createElement('div');
@@ -7,7 +7,7 @@ const ShowPage = props => {
   const type = props.type;
   let bgImgObj = '';
   let thumbObj = '';
-  let title = '', bgImg = {}, thumbImg = {};
+  let title = ''; let bgImg = {}; let thumbImg = {};
 
   switch (type) {
     case 'DmcSeries':
@@ -32,7 +32,7 @@ const ShowPage = props => {
       thumbImg = thumbObj.default.default;
       break;
     default:
-      //should handle every type; so if i miss one, display the type
+      // should handle every type; so if i miss one, display the type
       title = type;
       break;
   }

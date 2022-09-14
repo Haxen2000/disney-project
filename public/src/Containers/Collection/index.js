@@ -2,13 +2,13 @@ import ShowCard from '../ShowCard/index.js';
 
 const Collection = props => {
   const data = props.data.set ? props.data.set : props.data[props.refType];
-  let cardArr = [];
+  const cardArr = [];
 
   data?.items?.forEach((show) => {
     const titleObj = show.text.title.full;
     const imgObj = show.image.tile['1.78'];
     const type = show.type;
-    let title = '', img = {};
+    let title = ''; let img = {};
 
     switch (type) {
       case 'DmcSeries':
@@ -24,11 +24,11 @@ const Collection = props => {
         img = imgObj.default.default;
         break;
       default:
-        //should handle every type; so if i miss one, display the type
+        // should handle every type; so if i miss one, display the type
         title = type;
         break;
     }
-    cardArr.push({title, img});
+    cardArr.push({ title, img });
   });
 
   const ShowContainer = document.createElement('div');
@@ -37,15 +37,15 @@ const Collection = props => {
   const shows = cardArr.map((show) => {
     return ShowCard({
       title: show.title,
-      img: show.img,
+      img: show.img
     });
   });
   ShowContainer.append(...shows);
-  
+
   if (!props.showCardsOnly) {
-    //calculation new left position
+    // calculation new left position
     const CollectionContainer = document.createElement('div');
-    CollectionContainer.className='collectionContainer';
+    CollectionContainer.className = 'collectionContainer';
     if (data.refId) {
       CollectionContainer.dataset.refId = data.refId;
       CollectionContainer.dataset.refType = data.refType;
@@ -63,6 +63,6 @@ const Collection = props => {
   else {
     return ShowContainer;
   }
-}
+};
 
 export default Collection;

@@ -1,9 +1,9 @@
-import { imgBuilder } from "../../tools/ImageBuilder.js";
+import { imgBuilder } from '../../tools/ImageBuilder.js';
 
 const ShowCard = props => {
   const CardContainer = document.createElement('div');
   CardContainer.className = 'cardContainer';
-  
+
   if (props.img) {
     CardContainer.appendChild(imgBuilder(props.img.url, props.title));
   }
