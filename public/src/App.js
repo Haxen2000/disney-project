@@ -7,22 +7,22 @@ let maxRows = 0;
 let maxShows = 0;
 
 let state = {}; // data from API
-let shifted = []; //array holding how much a row has shifted
-let currRow = 0; //number representing our current row
+let shifted = []; // array holding how much a row has shifted
+let currRow = 0; // number representing our current row
 let visualL2R = 0; // 0-3; where we are on the screen, left to right
-let homePage = true; //true, we are on the home page; false, we are on a show page
+let homePage = true; // true, we are on the home page; false, we are on a show page
 
 let totalCollectionsLoaded = 0;
 
-function render() {
-  const app = document.getElementsByClassName('app')[0];
+function render () {
+  const app = document.querySelector('.app');
   app.focus();
 
   const div = document.createElement('div');
   div.className = 'home-container';
   app.append(div);
 
-  var collections = state?.map((coll) => {
+  const collections = state?.map((coll) => {
     if (coll.set.items) {
       totalCollectionsLoaded++;
     }
@@ -34,7 +34,7 @@ function render() {
   collections[0].childNodes[1].childNodes[0].className += ' selected';
 };
 
-function keyDownHandler(e) {
+function keyDownHandler (e) {
   e.preventDefault();
   switch (e.code) {
     case 'ArrowDown':
@@ -44,7 +44,7 @@ function keyDownHandler(e) {
           currRow = (currRow + 1);
           if (currRow > 1 && currRow < maxRows - 2) {
             const loadRowNum = currRow + 2;
-            const updateContainer = document.getElementsByClassName('collectionContainer')[loadRowNum];
+            const updateContainer = document.querySelectorAll('.collectionContainer')[loadRowNum];
             const id = updateContainer.getAttribute('data-ref-id');
             if (loadRowNum + 1 > totalCollectionsLoaded) {
               getCollectionData(id)
@@ -55,9 +55,9 @@ function keyDownHandler(e) {
                   }
                   state[loadRowNum].set = data[refType];
                   const updatedContent = Collection({
-                    data: data,
-                    refType: refType,
-                    showCardsOnly: true,
+                    data,
+                    refType,
+                    showCardsOnly: true
                   });
                   updateContainer.append(updatedContent);
                 });
@@ -65,13 +65,13 @@ function keyDownHandler(e) {
             }
           }
           if (currRow > 1 && currRow < maxRows - 1) {
-            document.getElementsByClassName('home-container')[0].style.top = (currRow - 1) * -256 + 'px';
+            document.querySelector('.home-container').style.top = (currRow - 1) * -256 + 'px';
           }
         }
       }
       else {
-        document.getElementsByClassName('play-btn')[0].className = 'play-btn selected';
-        document.getElementsByClassName('back-btn')[0].className = 'back-btn';
+        document.querySelector('.play-btn').className = 'play-btn selected';
+        document.querySelector('.back-btn').className = 'back-btn';
       }
       break;
     case 'ArrowUp':
@@ -80,13 +80,13 @@ function keyDownHandler(e) {
         if (currRow) {
           currRow = (currRow - 1);
           if (currRow) {
-            document.getElementsByClassName('home-container')[0].style.top = (currRow - 1) * -256 + 'px';
+            document.querySelector('.home-container').style.top = (currRow - 1) * -256 + 'px';
           }
         };
       }
       else {
-        document.getElementsByClassName('play-btn')[0].className = 'play-btn';
-        document.getElementsByClassName('back-btn')[0].className = 'back-btn selected';
+        document.querySelector('.play-btn').className = 'play-btn';
+        document.querySelector('.back-btn').className = 'back-btn selected';
       }
       break;
     case 'ArrowRight':
@@ -102,8 +102,8 @@ function keyDownHandler(e) {
         }
       }
       else {
-        document.getElementsByClassName('play-btn')[0].className = 'play-btn selected';
-        document.getElementsByClassName('back-btn')[0].className = 'back-btn';
+        document.querySelector('.play-btn').className = 'play-btn selected';
+        document.querySelector('.back-btn').className = 'back-btn';
       }
       break;
     case 'ArrowLeft':
@@ -117,15 +117,15 @@ function keyDownHandler(e) {
         }
       }
       else {
-        document.getElementsByClassName('play-btn')[0].className = 'play-btn';
-        document.getElementsByClassName('back-btn')[0].className = 'back-btn selected';
+        document.querySelector('.play-btn').className = 'play-btn';
+        document.querySelector('.back-btn').className = 'back-btn selected';
       }
       break;
     case 'Enter':
       if (homePage) {
         homePage = false;
         const selectedShow = state[currRow].set.items[visualL2R + shifted[currRow]];
-        const app = document.getElementsByClassName('app')[0];
+        const app = document.querySelector('.app');
         app.className = 'app show-page';
 
         const div = ShowPage(selectedShow);
@@ -133,54 +133,55 @@ function keyDownHandler(e) {
         app.append(div);
       }
       else {
-        const playBtn = document.getElementsByClassName('play-btn')[0];
+        const playBtn = document.querySelector('.play-btn');
         if (playBtn.className.indexOf('selected') !== -1) {
           alert('Next step: play this show!');
         }
         else {
-          const app = document.getElementsByClassName('app')[0];
-          app.removeChild(document.getElementsByClassName('show-page-holder')[0]);
+          const app = document.querySelector('.app');
+          app.removeChild(document.querySelector('.show-page-holder'));
           homePage = true;
           app.className = 'app home-page';
         }
       }
       break;
-    case 'Backspace':
-      const app = document.getElementsByClassName('app')[0];
-      app.removeChild(document.getElementsByClassName('show-page-holder')[0]);
+    case 'Backspace': {
+      const app = document.querySelector('.app');
+      app.removeChild(document.querySelector('.show-page-holder'));
       homePage = true;
       app.className = 'app home-page';
       break;
+    }
     default:
       console.log('keyDownHandler', e.code);
       break;
   }
-  const selectedCollection = document.getElementsByClassName('showContainer')[currRow];
+  const selectedCollection = document.querySelectorAll('.showContainer')[currRow];
   selectedCollection.style.left = shifted[currRow] * -300 + 'px';
-  const cards = [].slice.call(document.getElementsByClassName('cardContainer'));
+  const cards = [].slice.call(document.querySelectorAll('.cardContainer'));
   cards.forEach(e => {
     e.className = 'cardContainer';
   });
-  const selectedCard = selectedCollection.getElementsByClassName('cardContainer')[visualL2R + shifted[currRow]];
+  const selectedCard = selectedCollection.querySelectorAll('.cardContainer')[visualL2R + shifted[currRow]];
   selectedCard.className += ' selected';
 };
 
-function App() {
+function App () {
   const root = document.getElementById('root');
   root.style.height = window.outerHeight + 'px';
 
-  function init() {
+  function init () {
     getHomeData()
       .then(res => {
         state = res.StandardCollection.containers;
         maxRows = state.length;
         maxShows = state[0].set.items.length;
-        shifted = (Array.from({length: maxRows}, (_, i) => 0)); //creates an array of 0s
+        shifted = (Array.from({ length: maxRows }, (_, i) => 0)); // creates an array of 0s
 
         const app = document.createElement('div');
-        app.className='app home-page';
-        app.tabIndex=0;
-        app.onkeydown=keyDownHandler;
+        app.className = 'app home-page';
+        app.tabIndex = 0;
+        app.onkeydown = keyDownHandler;
         root.append(app);
 
         render();
