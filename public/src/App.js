@@ -1,5 +1,7 @@
 import { getHomeData, getCollectionData } from './actions.js';
 
+import DivBuilder from './tools/DivBuilder.js';
+
 import Collection from './Containers/Collection/index.js';
 import ShowPage from './Containers/ShowPage/index.js';
 
@@ -18,8 +20,7 @@ function render () {
   const app = document.querySelector('.app');
   app.focus();
 
-  const div = document.createElement('div');
-  div.className = 'home-container';
+  const div = new DivBuilder('home-container');
   app.append(div);
 
   const collections = state?.map((coll) => {
@@ -33,6 +34,24 @@ function render () {
   div.append(...collections);
   collections[0].childNodes[1].childNodes[0].className += ' selected';
 };
+
+function togglePlayBack (playOn) {
+  if (playOn) {
+    document.querySelector('.play-btn').classList.add('selected');
+    document.querySelector('.back-btn').classList.remove('selected');
+  }
+  else {
+    document.querySelector('.play-btn').classList.remove('selected');
+    document.querySelector('.back-btn').classList.add('selected');
+  }
+}
+
+function showHomePage () {
+  const app = document.querySelector('.app');
+  app.removeChild(document.querySelector('.show-page-holder'));
+  app.className = 'app home-page';
+  homePage = true;
+}
 
 function keyDownHandler (e) {
   e.preventDefault();
@@ -70,8 +89,7 @@ function keyDownHandler (e) {
         }
       }
       else {
-        document.querySelector('.play-btn').className = 'play-btn selected';
-        document.querySelector('.back-btn').className = 'back-btn';
+        togglePlayBack(true);
       }
       break;
     case 'ArrowUp':
@@ -85,8 +103,7 @@ function keyDownHandler (e) {
         };
       }
       else {
-        document.querySelector('.play-btn').className = 'play-btn';
-        document.querySelector('.back-btn').className = 'back-btn selected';
+        togglePlayBack(false);
       }
       break;
     case 'ArrowRight':
@@ -102,8 +119,7 @@ function keyDownHandler (e) {
         }
       }
       else {
-        document.querySelector('.play-btn').className = 'play-btn selected';
-        document.querySelector('.back-btn').className = 'back-btn';
+        togglePlayBack(true);
       }
       break;
     case 'ArrowLeft':
@@ -117,8 +133,7 @@ function keyDownHandler (e) {
         }
       }
       else {
-        document.querySelector('.play-btn').className = 'play-btn';
-        document.querySelector('.back-btn').className = 'back-btn selected';
+        togglePlayBack(false);
       }
       break;
     case 'Enter':
@@ -129,7 +144,6 @@ function keyDownHandler (e) {
         app.className = 'app show-page';
 
         const div = ShowPage(selectedShow);
-        div.className = 'show-page-holder';
         app.append(div);
       }
       else {
@@ -138,18 +152,12 @@ function keyDownHandler (e) {
           alert('Next step: play this show!');
         }
         else {
-          const app = document.querySelector('.app');
-          app.removeChild(document.querySelector('.show-page-holder'));
-          homePage = true;
-          app.className = 'app home-page';
+          showHomePage();
         }
       }
       break;
     case 'Backspace': {
-      const app = document.querySelector('.app');
-      app.removeChild(document.querySelector('.show-page-holder'));
-      homePage = true;
-      app.className = 'app home-page';
+      showHomePage();
       break;
     }
     default:
@@ -178,8 +186,7 @@ function App () {
         maxShows = state[0].set.items.length;
         shifted = (Array.from({ length: maxRows }, (_, i) => 0)); // creates an array of 0s
 
-        const app = document.createElement('div');
-        app.className = 'app home-page';
+        const app = new DivBuilder('app home-page');
         app.tabIndex = 0;
         app.onkeydown = keyDownHandler;
         root.append(app);

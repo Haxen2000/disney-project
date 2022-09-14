@@ -1,10 +1,12 @@
 import ShowCard from '../ShowCard/index.js';
+import DivBuilder from '../../tools/DivBuilder.js';
 
 const Collection = props => {
-  const data = props.data.set ? props.data.set : props.data[props.refType];
+  const { data, refType, showCardsOnly } = props;
+  const thisData = data.set ? data.set : data[refType];
   const cardArr = [];
 
-  data?.items?.forEach((show) => {
+  thisData?.items?.forEach((show) => {
     const titleObj = show.text.title.full;
     const imgObj = show.image.tile['1.78'];
     const type = show.type;
@@ -31,8 +33,7 @@ const Collection = props => {
     cardArr.push({ title, img });
   });
 
-  const ShowContainer = document.createElement('div');
-  ShowContainer.className = 'showContainer';
+  const ShowContainer = new DivBuilder('showContainer');
 
   const shows = cardArr.map((show) => {
     return ShowCard({
@@ -42,17 +43,16 @@ const Collection = props => {
   });
   ShowContainer.append(...shows);
 
-  if (!props.showCardsOnly) {
+  if (!showCardsOnly) {
     // calculation new left position
-    const CollectionContainer = document.createElement('div');
-    CollectionContainer.className = 'collectionContainer';
-    if (data.refId) {
-      CollectionContainer.dataset.refId = data.refId;
-      CollectionContainer.dataset.refType = data.refType;
+    const CollectionContainer = new DivBuilder('collectionContainer');
+    if (thisData.refId) {
+      CollectionContainer.dataset.refId = thisData.refId;
+      CollectionContainer.dataset.refType = thisData.refType;
     }
 
     const collectionTitle = document.createElement('h4');
-    collectionTitle.innerHTML = data.text?.title.full.set.default.content;
+    collectionTitle.innerHTML = thisData.text?.title.full.set.default.content;
     CollectionContainer.appendChild(collectionTitle);
 
     if (shows.length) {

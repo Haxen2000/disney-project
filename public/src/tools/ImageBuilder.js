@@ -5,10 +5,13 @@ const imgError = (e) => {
   e.target.className = 'fallback';
 };
 
-export const imgBuilder = (src, alt) => {
-  const img = document.createElement('img');
-  img.src = src;
-  img.alt = alt;
-  img.onerror = imgError;
-  return img;
+export default class ImageBuilder extends HTMLImageElement {
+  constructor (src, alt) {
+    super();
+    this.src = src;
+    this.alt = alt;
+    this.onerror = imgError;
+  }
 };
+
+customElements.define('img-builder', ImageBuilder, { extends: 'img' });

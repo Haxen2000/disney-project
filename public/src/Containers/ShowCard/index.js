@@ -1,15 +1,15 @@
-import { imgBuilder } from '../../tools/ImageBuilder.js';
+import ImageBuilder from '../../tools/ImageBuilder.js';
+import DivBuilder from '../../tools/DivBuilder.js';
 
-const ShowCard = props => {
-  const CardContainer = document.createElement('div');
-  CardContainer.className = 'cardContainer';
+const ShowCard = ({ img, title }) => {
+  const CardContainer = new DivBuilder('cardContainer');
 
-  if (props.img) {
-    CardContainer.appendChild(imgBuilder(props.img.url, props.title));
+  if (img) {
+    CardContainer.appendChild(new ImageBuilder(img.url, title));
   }
   else {
-    const div = document.createElement('div');
-    div.innerHTML = props.title;
+    const div = new DivBuilder();
+    div.innerHTML = title;
     CardContainer.appendChild(div);
   }
 

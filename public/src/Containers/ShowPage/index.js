@@ -1,32 +1,33 @@
-import { imgBuilder } from '../../tools/ImageBuilder.js';
+import ImageBuilder from '../../tools/ImageBuilder.js';
+import DivBuilder from '../../tools/DivBuilder.js';
+import SpanBuilder from '../../tools/SpanBuilder.js';
 
-const ShowPage = props => {
-  const ShowPage = document.createElement('div');
+const ShowPage = ({ text, type, image, ratings, releases }) => {
+  const ShowPage = new DivBuilder('show-page-holder');
 
-  const titleObj = props.text.title.full;
-  const type = props.type;
+  const titleObj = text.title.full;
   let bgImgObj = '';
   let thumbObj = '';
   let title = ''; let bgImg = {}; let thumbImg = {};
 
   switch (type) {
     case 'DmcSeries':
-      bgImgObj = props.image.background_details ? props.image.background_details['1.78'] : props.image.background['1.78'];
-      thumbObj = props.image.title_treatment['1.78'];
+      bgImgObj = image.background_details ? image.background_details['1.78'] : image.background['1.78'];
+      thumbObj = image.title_treatment['1.78'];
       title = titleObj.series?.default.content;
       bgImg = bgImgObj.series.default;
       thumbImg = thumbObj.series.default;
       break;
     case 'DmcVideo':
-      bgImgObj = props.image.background_details ? props.image.background_details['1.78'] : props.image.background['1.78'];
-      thumbObj = props.image.title_treatment['1.78'];
+      bgImgObj = image.background_details ? image.background_details['1.78'] : image.background['1.78'];
+      thumbObj = image.title_treatment['1.78'];
       title = titleObj.program?.default.content;
       bgImg = bgImgObj.program.default;
       thumbImg = thumbObj.program.default;
       break;
     case 'StandardCollection':
-      bgImgObj = props.image.hero_tile ? props.image.hero_tile['1.78'] : props.image.hero_collection['1.78'];
-      thumbObj = props.image.logo_layer ? props.image.logo_layer['1.78'] : props.image.tile['1.78'];
+      bgImgObj = image.hero_tile ? image.hero_tile['1.78'] : image.hero_collection['1.78'];
+      thumbObj = image.logo_layer ? image.logo_layer['1.78'] : image.tile['1.78'];
       title = titleObj.series?.default.content;
       bgImg = bgImgObj.default.default;
       thumbImg = thumbObj.default.default;
@@ -37,33 +38,25 @@ const ShowPage = props => {
       break;
   }
 
-  const showDescrip = document.createElement('div');
-  showDescrip.className = 'show-descrip';
+  const showDescrip = new DivBuilder('show-descrip');
 
-  const backBtn = document.createElement('span');
-  backBtn.innerHTML = 'ᐸ Back';
-  backBtn.className = 'back-btn';
+  const backBtn = new SpanBuilder('ᐸ Back', 'back-btn');
   ShowPage.appendChild(backBtn);
 
-  showDescrip.appendChild(imgBuilder(thumbImg.url, title));
+  showDescrip.appendChild(new ImageBuilder(thumbImg.url, title));
 
-  const metadata = document.createElement('div');
-  metadata.className = 'metadata-holder';
-  if (props.ratings) {
-    const rating = document.createElement('span');
-    rating.innerHTML = props.ratings[0].value;
+  const metadata = new DivBuilder('metadata-holder');
+  if (ratings) {
+    const rating = new SpanBuilder(ratings[0].value);
     metadata.appendChild(rating);
   }
-  if (props.releases) {
-    const year = document.createElement('span');
-    year.innerHTML = props.releases[0].releaseYear;
+  if (releases) {
+    const year = new SpanBuilder(releases[0].releaseYear);
     metadata.appendChild(year);
   }
   showDescrip.appendChild(metadata);
 
-  const playBtn = document.createElement('span');
-  playBtn.innerHTML = '➤ Play';
-  playBtn.className = 'play-btn selected';
+  const playBtn = new SpanBuilder('➤ Play', 'play-btn selected');
   showDescrip.appendChild(playBtn);
 
   ShowPage.style.backgroundImage = 'url("' + bgImg.url + '")';
