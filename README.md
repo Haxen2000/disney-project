@@ -1,4 +1,4 @@
-# Getting Started with Create React App
+# Getting Started with this project
 
 This project was originally bootstrapped with [Create React App](https://github.com/facebook/create-react-app). The src folder was emptied (minus index.js) after re-reading the requirements, so that I could continue to use *npm start* to run locally while working in the public folder with vanilla JS. Eventually, I moved to the [Local Web Server module](https://github.com/lwsjs/local-web-server).
 
